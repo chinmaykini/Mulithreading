@@ -22,16 +22,13 @@ public class BlockingQueueLocks {
 	}
 	
 	public void enqueue(Object item) throws InterruptedException{
-		
-		lock.lock();
-		
+		lock.lock();	
 		try{
 			while(queue.size() == capacity){
-				isFull.wait();
+				isFull.await();
 			}
-			
 			queue.add(item);
-			isEmpty.notifyAll();
+			isEmpty.signalAll();
 			
 		} finally{
 			lock.unlock();
@@ -45,11 +42,11 @@ public class BlockingQueueLocks {
 		
 		try{
 			while(queue.size() == 0){
-				isEmpty.wait();
+				isEmpty.await();
 			}
 			
 			Object item = queue.remove();
-			isFull.notifyAll();
+			isFull.signalAll();
 			return item;
 		} finally{
 			lock.unlock();
