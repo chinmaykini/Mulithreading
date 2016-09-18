@@ -4,12 +4,12 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
-public class BlockingQueueProducer implements Runnable{
+public class BlockingQueueProducer<T> implements Runnable{
 	
-	BlockingQueue queue;
+	BlockingQueue<T> queue;
 
 
-	public BlockingQueueProducer(BlockingQueue queue) {
+	public BlockingQueueProducer(BlockingQueue<T> queue) {
 		super();
 		this.queue = queue;
 	}
@@ -20,7 +20,8 @@ public class BlockingQueueProducer implements Runnable{
 		for(int i = 0; i< 10; i++){
 			try {
 				System.out.println("[" +ZonedDateTime.now().format(DateTimeFormatter.RFC_1123_DATE_TIME)+ "] Thread " + Thread.currentThread().getId() + " about to enqueue");
-				queue.enqueue(Integer.parseInt(""+i));
+				T item = (T) new Integer(Integer.parseInt(""+i));
+				queue.enqueue(item);
 				System.out.println("[" +ZonedDateTime.now().format(DateTimeFormatter.RFC_1123_DATE_TIME)+ "] Thread " + Thread.currentThread().getId() + " enqueued item " + i);
 				Thread.sleep(1000);
 			} catch (NumberFormatException e) {

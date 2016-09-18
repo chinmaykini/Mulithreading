@@ -1,16 +1,16 @@
 import java.util.LinkedList;
 
-public class BlockingQueue {
-	public LinkedList queue;
+public class BlockingQueue<T> {
+	public LinkedList<T> queue;
 	public int capacity;
 	
-	public BlockingQueue(LinkedList queue, int capacity) {
+	public BlockingQueue(LinkedList<T> queue, int capacity) {
 		super();
 		this.queue = queue;
 		this.capacity = capacity;
 	}
 	
-	public synchronized void enqueue(Object item) throws InterruptedException{
+	public synchronized void enqueue(T item) throws InterruptedException{
 		
 		while(queue.size() == capacity){
 			wait();
@@ -23,7 +23,7 @@ public class BlockingQueue {
 		queue.add(item);
 	}
 
-	public synchronized Object dequeue() throws InterruptedException{
+	public synchronized T dequeue() throws InterruptedException{
 		
 		while(queue.size() == 0){
 			wait();
