@@ -3,15 +3,15 @@ import java.util.concurrent.*;
 import java.util.concurrent.locks.*;
 
 
-public class BlockingQueueLocks {
+public class BlockingQueueLocks<T> {
 	
-	LinkedList queue;
+	LinkedList<T> queue;
 	int capacity;
 	Lock lock = new ReentrantLock();
 	Condition isFull = lock.newCondition();
 	Condition isEmpty = lock.newCondition();
 	
-	public BlockingQueueLocks(LinkedList queue, int capacity) {
+	public BlockingQueueLocks(LinkedList<T> queue, int capacity) {
 
 		super();
 		lock.lock();
@@ -21,7 +21,7 @@ public class BlockingQueueLocks {
 		
 	}
 	
-	public void enqueue(Object item) throws InterruptedException{
+	public void enqueue(T item) throws InterruptedException{
 		lock.lock();	
 		try{
 			while(queue.size() == capacity){
@@ -37,7 +37,7 @@ public class BlockingQueueLocks {
 		
 	}
 	
-	public Object dequeue() throws InterruptedException{
+	public T dequeue() throws InterruptedException{
 		lock.lock();
 		
 		try{
@@ -45,7 +45,7 @@ public class BlockingQueueLocks {
 				isEmpty.await();
 			}
 			
-			Object item = queue.remove();
+			T item = queue.remove();
 			isFull.signalAll();
 			return item;
 		} finally{

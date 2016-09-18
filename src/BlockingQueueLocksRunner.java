@@ -5,9 +5,9 @@ public class BlockingQueueLocksRunner {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		BlockingQueueLocks queue = new BlockingQueueLocks(new LinkedList<>(), 5);
-		BlockingQueueLocksProducer producer = new BlockingQueueLocksProducer(queue);
-		BlockingQueueLocksConsumer consumer = new BlockingQueueLocksConsumer(queue);
+		BlockingQueueLocks<Integer> queue = new BlockingQueueLocks<Integer>(new LinkedList<>(), 5);
+		BlockingQueueLocksProducer<Integer> producer = new BlockingQueueLocksProducer<Integer>(queue);
+		BlockingQueueLocksConsumer<Integer> consumer = new BlockingQueueLocksConsumer<Integer>(queue);
 		
 		Thread producerThread = new Thread(producer);
 		Thread consumerThread = new Thread(consumer);
