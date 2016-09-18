@@ -1,11 +1,11 @@
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class BlockingQueueConsumer implements Runnable{
+public class BlockingQueueConsumer<T> implements Runnable{
 
-	BlockingQueue queue;
+	BlockingQueue<T> queue;
 	
-	public BlockingQueueConsumer(BlockingQueue queue) {
+	public BlockingQueueConsumer(BlockingQueue<T> queue) {
 		super();
 		this.queue = queue;
 	}
@@ -15,7 +15,7 @@ public class BlockingQueueConsumer implements Runnable{
 		for(int i = 0; i< 10; i++){
 			try {
 				System.out.println("[" +ZonedDateTime.now().format(DateTimeFormatter.RFC_1123_DATE_TIME)+ "] Thread " + Thread.currentThread().getId() + " about to dequeue");
-				Object item = queue.dequeue();
+				T item = queue.dequeue();
 				System.out.println("[" +ZonedDateTime.now().format(DateTimeFormatter.RFC_1123_DATE_TIME)+ "] Thread " + Thread.currentThread().getId() + " dequed item " + (Integer) item);
 				Thread.sleep(5000);
 			} catch (NumberFormatException e) {
